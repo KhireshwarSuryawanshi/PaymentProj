@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 from database import database
 from models import User
 import employee
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 import os
 
 app = Flask(__name__)
@@ -19,17 +19,24 @@ def home():
 
 
 # ---------------- LOGIN ROUTE ----------------
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
 
-        if db.validate_user(username, password):
-            session["username"] = username  # store logged-in user
-            return redirect(url_for("user_dashboard"))
-        else:
-            return "INVALID USERNAME OR PASSWORD. <a href='/login'>Try Again</a>"
+        try:
+            user = db.get_user_details(username)
+            if user and check_password_hash(user["password"], password):
+                session["username"] = username
+                return redirect(url_for("user_dashboard"))
+            else:
+                return "INVALID USERNAME OR PASSWORD. <a href='/login'>Try Again</a>"
+        except Exception as e:
+            print("Login DB Error:", e)
+            return f"Login failed due to server error: {e}"
+
     return render_template("user_login.html")
 
 
@@ -63,10 +70,9 @@ def user_dashboard():
 
     username = session["username"]
     user = db.get_user_details(username)
-    history = db.get_recharge_history(username)  # fetch from DB
+    history = db.get_recharge_history(username)
 
     return render_template("user_dashboard.html", user=user, history=history)
-
 
 # ---------------- PROFILE ROUTE ----------------
 @app.route("/profile")
@@ -149,30 +155,31 @@ def employee_login():
         employee_ID = request.form.get("employee_ID")
         e_password = request.form.get("e_password")
 
-        # Validate employee login
-        if db.validate_employee(employee_ID, e_password):
-            # Fetch employee details
+        try:
             emp = db.get_employee_details(employee_ID)
+            if emp and check_password_hash(emp["password"], e_password):
+                session['employee_id'] = employee_ID
+                session['employee_name'] = emp['name']
+                return redirect(url_for("employee_dashboard"))
+            else:
+                return "Invalid ID or password"
+        except Exception as e:
+            print("Employee Login DB Error:", e)
+            return f"Employee login failed: {e}"
 
-            # Store the name in session
-            session['employee_name'] = emp['name']
-            session['employee_ID'] = employee_ID
-
-            # Redirect to employee dashboard
-            return redirect(url_for("employee_dashboard"))
-        else:
-            return "Invalid ID or password"
-    
     return render_template("employee_login.html")
 
 @app.route("/employee_dashboard")
 def employee_dashboard():
     if "employee_id" not in session:
         return redirect(url_for("employee_login"))
+
     employee_ID = session["employee_id"]
     emp = db.get_employee_details(employee_ID)
     name = emp["name"] if emp else employee_ID
-    return render_template("employee_dashboard.html", employee_ID=employee_ID)
+
+    return render_template("employee_dashboard.html", employee_ID=employee_ID, name=name)
+
 
 # View all users
 
@@ -215,9 +222,9 @@ def delete_user():
 
 @app.route("/employee_logout", methods=["GET", "POST"])
 def employee_logout():
-    session.pop('employee_id', None)  # also fix key name
+    session.pop('employee_id', None)
+    session.pop('employee_name', None)
     return redirect(url_for('employee_login'))
-
 
 # ---------------- RUN APP ----------------
 
