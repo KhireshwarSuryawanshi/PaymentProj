@@ -1,15 +1,19 @@
 import mysql.connector
 from werkzeug.security import check_password_hash
+import os
 
 
 class database():
     def connection(self):
         try:
             mydb = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                password="1234",
-                database="recharge_db"
+                
+                host=os.getenv("DB_HOST"),
+                user=os.getenv("DB_USER"),
+                password=os.getenv("DB_PASSWORD"),
+                database=os.getenv("DB_NAME"),
+                port=os.getenv("DB_PORT", 3306)
+
             )
             print("connection success. . . . . ")
             return mydb
@@ -18,7 +22,6 @@ class database():
             return None
 
 # TO SAVE USER DATA
-
 
     def user_savedata(self, username, phonum, email, password, deposit):
         mydb = self.connection()
@@ -50,6 +53,7 @@ class database():
 
 
 # TO LOGIN USER
+
 
     def validate_user(self, username, password):
         mydb = self.connection()
@@ -85,7 +89,6 @@ class database():
 
 
 # TO VALIDAATE EMPLOYEE LOGIN
-
 
     def validate_employee(self, employee_ID, password):
         mydb = self.connection()
@@ -166,13 +169,14 @@ class database():
             cursor.close()
             mydb.close()
 
-    def get_employee_details(self,employee_ID):
+    def get_employee_details(self, employee_ID):
         mydb = self.connection()
         if mydb is None:
             return None
-        
+
         cursor = mydb.cursor(dictionary=True)
-        cursor.execute("SELECT * FROM employees WHERE employee_ID=%s", (employee_ID,))
+        cursor.execute(
+            "SELECT * FROM employees WHERE employee_ID=%s", (employee_ID,))
         emp = cursor.fetchone()
         cursor.close()
         mydb.close()
