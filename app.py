@@ -3,6 +3,8 @@ from database import database
 from models import User
 import employee
 from werkzeug.security import generate_password_hash, check_password_hash
+from dotenv import load_dotenv
+load_dotenv()
 import os
 
 app = Flask(__name__)
@@ -75,6 +77,8 @@ def user_dashboard():
     return render_template("user_dashboard.html", user=user, history=history)
 
 # ---------------- PROFILE ROUTE ----------------
+
+
 @app.route("/profile")
 def profile():
     if "username" not in session:
@@ -168,6 +172,7 @@ def employee_login():
             return f"Employee login failed: {e}"
 
     return render_template("employee_login.html")
+
 
 @app.route("/employee_dashboard")
 def employee_dashboard():

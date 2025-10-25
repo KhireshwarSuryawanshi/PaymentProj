@@ -1,23 +1,18 @@
-
-# Ignore virtual environment
-.venv/
-venv/
-
-# Ignore Python cache files
+# Python cache files
 __pycache__/
 *.pyc
-*.pyo
 
-# Ignore IDE / editor folders
+# Environment variables
+.env
+
+# Virtual environment folder
+venv/
+env/
+
+# IDE/editor files
 .vscode/
-.idea/
+*.idea/
 
-# Ignore system files
+# OS files
 .DS_Store
 Thumbs.db
-
-# Ignore environment files
-.env
-*.sqlite3
-
-# But keep everything else!

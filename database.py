@@ -1,5 +1,7 @@
 import mysql.connector
 from werkzeug.security import check_password_hash
+from dotenv import load_dotenv
+load_dotenv()
 import os
 
 
@@ -7,12 +9,13 @@ class database():
     def connection(self):
         try:
             mydb = mysql.connector.connect(
-            host=os.getenv("MYSQL_ADDON_HOST"),       # <-- use this
-            user=os.getenv("MYSQL_ADDON_USER"),       # <-- use this
-            password=os.getenv("MYSQL_ADDON_PASSWORD"), # <-- add this variable in Clever Cloud
-            database=os.getenv("MYSQL_ADDON_DB"),     # <-- use this
-            port=int(os.getenv("MYSQL_ADDON_PORT", 3306))  # convert to int
-        )
+                host=os.getenv("MYSQL_ADDON_HOST"),       # <-- use this
+                user=os.getenv("MYSQL_ADDON_USER"),       # <-- use this
+                # <-- add this variable in Clever Cloud
+                password=os.getenv("MYSQL_ADDON_PASSWORD"),
+                database=os.getenv("MYSQL_ADDON_DB"),     # <-- use this
+                port=int(os.getenv("MYSQL_ADDON_PORT", 3306))  # convert to int
+            )
             print("connection success. . . . . ")
             return mydb
         except mysql.connector.Error as error:
@@ -52,7 +55,6 @@ class database():
 
 # TO LOGIN USER
 
-
     def validate_user(self, username, password):
         mydb = self.connection()
         if mydb is None:
@@ -87,6 +89,7 @@ class database():
 
 
 # TO VALIDAATE EMPLOYEE LOGIN
+
 
     def validate_employee(self, employee_ID, password):
         mydb = self.connection()
