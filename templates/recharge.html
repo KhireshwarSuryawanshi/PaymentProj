@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recharge</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3f2fd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .recharge-container {
+            background-color: #fff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            width: 300px;
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #1565c0;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #1565c0;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0d47a1;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            color: #1565c0;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="recharge-container">
+        <h2>Recharge Account</h2>
+        <form method="POST" action="/recharge">
+            <form method="POST" action="/recharge">
+                <label>Phone Number:</label>
+                <input type="tel" name="phone_no" placeholder="Enter phone number" required><br><br>
+
+                <label>Amount to Add:</label>
+                <input type="number" name="amount" step="0.01" required><br><br>
+
+                <label>Select Operator:</label>
+                <select name="operator" required>
+                    <option value="">--Select Operator--</option>
+                    <option value="Jio">Jio</option>
+                    <option value="Airtel">Airtel</option>
+                    <option value="Vi">Vi</option>
+                    <option value="BSNL">BSNL</option>
+                </select><br><br>
+
+                <button type="submit">Add Money</button>
+            </form>
+
+        </form>
+        <a href="/dashboard">Back to Dashboard</a>
+    </div>
+</body>
+
+</html>
