@@ -7,14 +7,12 @@ class database():
     def connection(self):
         try:
             mydb = mysql.connector.connect(
-                
-                host=os.getenv("DB_HOST"),
-                user=os.getenv("DB_USER"),
-                password=os.getenv("DB_PASSWORD"),
-                database=os.getenv("DB_NAME"),
-                port=os.getenv("DB_PORT", 3306)
-
-            )
+            host=os.getenv("MYSQL_ADDON_HOST"),       # <-- use this
+            user=os.getenv("MYSQL_ADDON_USER"),       # <-- use this
+            password=os.getenv("MYSQL_ADDON_PASSWORD"), # <-- add this variable in Clever Cloud
+            database=os.getenv("MYSQL_ADDON_DB"),     # <-- use this
+            port=int(os.getenv("MYSQL_ADDON_PORT", 3306))  # convert to int
+        )
             print("connection success. . . . . ")
             return mydb
         except mysql.connector.Error as error:
@@ -80,7 +78,7 @@ class database():
             return None
 
         cursor = mydb.cursor(dictionary=True)  # return results as dictionary
-        sql = "SELECT username, phone_no, email, deposit FROM user WHERE username = %s"
+        sql = "SELECT username, phone_no, email, deposit, password FROM user WHERE username = %s"
         cursor.execute(sql, (username,))       # <- execute the query
         user = cursor.fetchone()               # fetch one record
         cursor.close()
