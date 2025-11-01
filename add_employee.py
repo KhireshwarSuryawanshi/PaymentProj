@@ -10,8 +10,8 @@ mydb = mysql.connector.connect(
 
 cursor = mydb.cursor()
 
-employee_ID = 101
-name = "war"
+employee_ID = 102
+name = "Khireshwar"
 password = "Hellomoto"
 hashed_password = generate_password_hash(password)
 
