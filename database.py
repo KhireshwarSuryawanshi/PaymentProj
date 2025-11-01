@@ -181,3 +181,32 @@ class database():
         cursor.close()
         mydb.close()
         return emp
+
+#- - - - - -  
+    def save_deposit_history(self,username,amount):
+        try:
+            mydb = self.connection()
+            cursor = mydb.cursor()
+            query = "INSERT INTO deposit_history (username, amount) VALUES (%s, %s)"
+            cursor.execute(query, (username, amount))
+            mydb.commit()
+            cursor.close()
+            mydb.close()
+            return True
+        except Exception as e:
+            print("error saving depost history . . . . . ")
+            return False
+        
+    def get_deposit_history(self,username):
+        try:
+            mydb = self.connection()
+            cursor = mydb.cursor(dictionary=True)
+            query = "SELECT * FROM deposit_history WHERE username = %s ORDER BY date DESC"
+            cursor.execute(query, (username))
+            result = cursor.fetchall()
+            cursor.close()
+            mydb.close()
+            return result
+        except Exception as e:
+            print("eroor fetching depo history . . . ")
+            return[]

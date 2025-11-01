@@ -87,6 +87,7 @@ def profile():
     username = session["username"]
     user = db.get_user_details(username)
     history = db.get_recharge_history(username)
+    deposit = db.get_recharge_history(username)  #deposit history
 
     return render_template("user_profile.html", user=user, history=history)
 
@@ -146,6 +147,7 @@ def add_money():
             return "Enter a valid amount."
 
         if db.add_deposit(username, amount):
+            db.save_deposit_history(username,amount) #deposit hrty
             return redirect(url_for("profile"))
         else:
             return "Failed to add money. Please try again."

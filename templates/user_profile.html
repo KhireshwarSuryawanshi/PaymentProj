@@ -103,6 +103,23 @@
         {% endfor %}
     </table>
 
+    <h3>Depoit History</h3>
+    <table border="1">
+        <tr>
+            <th>Amoun</th>
+            <th>Date</th>
+        </tr>
+        {% for deposit in deposits %}
+        <tr>
+            <td>{{ deposit.amount }}</td>
+            <td>{{ deposit.date }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="2">No deposit yet . . . </td>
+        </tr>
+        {% endfor %}
+    </table>
 
     <br>
     <a href="/recharge"><button>Recharge Again</button></a>
