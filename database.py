@@ -9,11 +9,10 @@ class database():
     def connection(self):
         try:
             mydb = mysql.connector.connect(
-                host=os.getenv("MYSQL_ADDON_HOST"),       # <-- use this
-                user=os.getenv("MYSQL_ADDON_USER"),       # <-- use this
-                # <-- add this variable in Clever Cloud
+                host=os.getenv("MYSQL_ADDON_HOST"),      
+                user=os.getenv("MYSQL_ADDON_USER"),       
                 password=os.getenv("MYSQL_ADDON_PASSWORD"),
-                database=os.getenv("MYSQL_ADDON_DB"),     # <-- use this
+                database=os.getenv("MYSQL_ADDON_DB"),     
                 port=int(os.getenv("MYSQL_ADDON_PORT", 3306))  # convert to int
             )
             print("connection success. . . . . ")

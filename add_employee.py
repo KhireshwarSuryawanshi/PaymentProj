@@ -1,11 +1,15 @@
 from werkzeug.security import generate_password_hash
 import mysql.connector
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="1234",
-    database="recharge_db"
+    host=os.getenv("MYSQL_ADDON_HOST"),       # <-- use this
+    user=os.getenv("MYSQL_ADDON_USER"),       
+    password=os.getenv("MYSQL_ADDON_PASSWORD"),
+    database=os.getenv("MYSQL_ADDON_DB"),     
+    port=int(os.getenv("MYSQL_ADDON_PORT", 3306))
 )
 
 cursor = mydb.cursor()
