@@ -18,7 +18,7 @@ def view_all_users():
     return render_template("employee_manage_user.html", users=users)
 
 
-# SEARCH USER BY USERNAME
+
 # SEARCH USER BY USERNAME
 def search_user():
     users = []  # initialize empty list
@@ -33,7 +33,7 @@ def search_user():
         mydb.close()
 
         if user:
-            users = [user]  # put single user in a list so template can loop
+            users = [user] 
         else:
             message = "No user found."
 
