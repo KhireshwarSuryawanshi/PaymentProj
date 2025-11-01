@@ -87,9 +87,9 @@ def profile():
     username = session["username"]
     user = db.get_user_details(username)
     history = db.get_recharge_history(username)
-    deposit = db.get_recharge_history(username)  #deposit history
+    deposit_history = db.get_recharge_history(username)  #deposit history
 
-    return render_template("user_profile.html", user=user, history=history)
+    return render_template("user_profile.html", user=user, history=history, deposit=deposit_history)
 
 
 # ---------------- LOGOUT ROUTE ----------------

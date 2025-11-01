@@ -202,7 +202,7 @@ class database():
             mydb = self.connection()
             cursor = mydb.cursor(dictionary=True)
             query = "SELECT * FROM deposit_history WHERE username = %s ORDER BY date DESC"
-            cursor.execute(query, (username))
+            cursor.execute(query, (username,))
             result = cursor.fetchall()
             cursor.close()
             mydb.close()

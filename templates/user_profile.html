@@ -106,17 +106,19 @@
     <h3>Depoit History</h3>
     <table border="1">
         <tr>
+            <th>ID</th>
             <th>Amoun</th>
             <th>Date</th>
         </tr>
-        {% for deposit in deposits %}
+        {% for d in deposits %}
         <tr>
-            <td>{{ deposit.amount }}</td>
-            <td>{{ deposit.date }}</td>
+            <td>{{ d.id }}</td>
+            <td>{{ d.amount }}</td>
+            <td>{{ d.date }}</td>
         </tr>
         {% else %}
         <tr>
-            <td colspan="2">No deposit yet . . . </td>
+            <td colspan="3">No deposit yet . . . </td>
         </tr>
         {% endfor %}
     </table>
