@@ -6,7 +6,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 load_dotenv()
 import os
-import instamojo_wrapper
 
 from instamojo_wrapper import Instamojo   #FOR API AND PAYMENT GATEWAY
 
@@ -14,7 +13,7 @@ from instamojo_wrapper import Instamojo   #FOR API AND PAYMENT GATEWAY
 api = Instamojo(
     api_key=os.getenv("INSTAMOJO_API_KEY"),
     auth_token=os.getenv("INSTAMOJO_AUTH_TOKEN"),
-    endpoint=os.getenv("INSTAMOJO_URL")
+    endpoint="https://www.instamojo.com/api/1.1/"
 )
 #=========================================================================
 
