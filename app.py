@@ -264,6 +264,8 @@ def pay():
             redirect_url=url_for("payment_success", _external=True)
         
         )
+        return redirect(response['payment_request']['longurl'])
+    
     except Exception as e:
         print("payment error:", e)
         return f"payment creatiin faild: {e}"
