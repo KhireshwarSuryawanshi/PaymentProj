@@ -6,6 +6,17 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 load_dotenv()
 import os
+import instamojo_wrapper
+
+from instamojo_wrapper import Instamojo   #FOR API AND PAYMENT GATEWAY
+
+#========================================================================
+api = Instamojo(
+    api_key=os.getenv("INSTAMOJO_API_KEY"),
+    auth_token=os.getenv("INSTAMOJO_AUTH_TOKEN"),
+    endpoint=os.getenv("INSTAMOJO_URL")
+)
+#=========================================================================
 
 app = Flask(__name__)
 app.secret_key = "your_secret_key"  # required for session
@@ -232,6 +243,56 @@ def employee_logout():
     session.pop('employee_id', None)
     session.pop('employee_name', None)
     return redirect(url_for('employee_login'))
+
+
+
+#INSTAMOJO ADD MONEY
+
+@app.route("/pay", methods=["POST"])
+def pay():
+    if "username" not in session:
+        return redirect(url_for("login"))
+    
+    username=session["username"]
+    amount = request.form.get("amount")
+
+    try:
+        response = api.payment_request_create(
+            amount=amount,
+            purpose="add money in wallet . .",
+            buyer_name=username,
+            send_email=True,
+            redirect_url=url_for("payment_success", _external=True)
+        
+        )
+    except Exception as e:
+        printf("payment error:", e)
+        return f"payment creatiin faild: {e}"
+    
+
+#Instamojo Payment success
+@app.route("/payment_success")
+def payment_success():
+    payment_request_id = request.args.get('payment_request_id')
+    payment_id = request.args.get('payment_id')
+
+    if "username" not in session:
+        return redirect(url_for("login"))
+
+    username = session["username"]
+
+    # You can verify payment status (optional)
+    response = api.payment_request_status(payment_request_id)
+
+    if response['payment_request']['status'] == 'Completed':
+        amount = response['payment_request']['amount']
+        db.add_deposit(username, float(amount))
+        db.save_deposit_history(username, float(amount))
+        return render_template("success.html", username=username, operator="Instamojo", amount=amount)
+    else:
+        return render_template("error.html", message="Payment not completed or failed.")
+
+
 
 # ---------------- RUN APP ----------------
 
