@@ -265,7 +265,7 @@ def pay():
         
         )
     except Exception as e:
-        printf("payment error:", e)
+        print("payment error:", e)
         return f"payment creatiin faild: {e}"
     
 
