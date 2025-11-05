@@ -3,11 +3,12 @@ from database import database
 from models import User
 import employee
 from werkzeug.security import generate_password_hash, check_password_hash
+import stripe
+import os
 from dotenv import load_dotenv
 load_dotenv()
 
-import stripe
-import os
+
 
 
 #========================================================================
