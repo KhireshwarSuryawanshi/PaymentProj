@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Deposit Successful</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background: #f4f6f8;
+            padding: 40px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            padding: 30px 50px;
+        }
+
+        h2 {
+            color: #28a745;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        a:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h2>Payment Successful 🎉</h2>
+        <p>Hi <strong>{{ username }}</strong>, ₹{{ amount }} has been added to your wallet.</p>
+        <p>Payment processed via Stripe.</p>
+        <a href="{{ url_for('user_dashboard') }}">Back to Dashboard</a>
+    </div>
+</body>
+
+</html>

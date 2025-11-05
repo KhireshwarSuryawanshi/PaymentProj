@@ -5,16 +5,14 @@ import employee
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 load_dotenv()
+
+import stripe
 import os
 
-from instamojo_wrapper import Instamojo   #FOR API AND PAYMENT GATEWAY
 
 #========================================================================
-api = Instamojo(
-    api_key=os.getenv("INSTAMOJO_API_KEY"),
-    auth_token=os.getenv("INSTAMOJO_AUTH_TOKEN"),
-    endpoint="https://www.instamojo.com/api/1.1/"
-)
+stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
+PUBLIC_KEY = os.getenv("STRIPE_PUBLIC_KEY")
 #=========================================================================
 
 app = Flask(__name__)
@@ -155,14 +153,58 @@ def add_money():
             amount = float(amount)
         except ValueError:
             return "Enter a valid amount."
+        
+        #
+        session["amount_to_add"]=amount
 
-        if db.add_deposit(username, amount):
-            db.save_deposit_history(username,amount) #deposit hrty
-            return redirect(url_for("profile"))
-        else:
-            return "Failed to add money. Please try again."
+        try:
+            checkout_session = stripe.checkout.Session.create(
+                payment_method_types=["card"],
+                line_items=[{
+                    "price_data":{
+                        "currency":"inr",
+                        "product_data":{
+                            "name": f"wallet recharge for{username}",
+                        },
+                        "unit_amount": int(amount * 100),
+                    },
+                    "quantity":1,
+                }],
+                mode="payment",
+                success_url=url_for("payment_success", _external=True),
+                cancel_url=url_for("payment_cancel", _external=True),
+            )
 
-    return render_template("add_money.html")
+            return redirect(checkout_session.url, code=303)
+        except Exception as e:
+            import traceback
+            print("Payment creation failed:", e)
+            traceback.print_exc()
+            return f"Payment creation failed: {str(e)}"
+    return render_template("add_money.html", public_key=PUBLIC_KEY)
+
+
+
+@app.route("/payment_success")
+def payment_success():
+    if "username" not in session or "amount_to_add" not in session:
+        return redirect(url_for("login"))
+
+    username = session["username"]
+    amount = session.pop("amount_to_add", 0)
+
+    # Update DB after successful payment
+    if db.add_deposit(username, amount):
+        db.save_deposit_history(username, amount)
+        return render_template("deposit_success.html", username=username, operator="Stripe", amount=amount)
+    else:
+        return render_template("error.html", message="Error updating wallet after payment.")
+
+    
+@app.route("/payment_cancel")
+def payment_cancel():
+    return "Payment cancelled. <a href='/add_money'>Try again</a>"
+
 
 
 @app.route("/employee", methods=["GET", "POST"])
@@ -244,54 +286,6 @@ def employee_logout():
     return redirect(url_for('employee_login'))
 
 
-
-#INSTAMOJO ADD MONEY
-
-@app.route("/pay", methods=["POST"])
-def pay():
-    if "username" not in session:
-        return redirect(url_for("login"))
-    
-    username=session["username"]
-    amount = request.form.get("amount")
-
-    try:
-        response = api.payment_request_create(
-            amount=amount,
-            purpose="add money in wallet . .",
-            buyer_name=username,
-            send_email=True,
-            redirect_url=url_for("payment_success", _external=True)
-        
-        )
-        return redirect(response['payment_request']['longurl'])
-    
-    except Exception as e:
-        print("payment error:", e)
-        return f"payment creatiin faild: {e}"
-    
-
-#Instamojo Payment success
-@app.route("/payment_success")
-def payment_success():
-    payment_request_id = request.args.get('payment_request_id')
-    payment_id = request.args.get('payment_id')
-
-    if "username" not in session:
-        return redirect(url_for("login"))
-
-    username = session["username"]
-
-    # You can verify payment status (optional)
-    response = api.payment_request_status(payment_request_id)
-
-    if response['payment_request']['status'] == 'Completed':
-        amount = response['payment_request']['amount']
-        db.add_deposit(username, float(amount))
-        db.save_deposit_history(username, float(amount))
-        return render_template("success.html", username=username, operator="Instamojo", amount=amount)
-    else:
-        return render_template("error.html", message="Payment not completed or failed.")
 
 
 

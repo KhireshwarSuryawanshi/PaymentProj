@@ -1,83 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Money</title>
+    <title>Add Money - Stripe Payment</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f4f8;
+            background-color: #eef2f5;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
-
         .container {
-            background-color: #fff;
+            background: white;
             padding: 30px 40px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+            width: 350px;
             text-align: center;
-            width: 300px;
         }
-
         h1 {
             color: #333;
             margin-bottom: 20px;
         }
-
         input[type="number"] {
             width: 100%;
             padding: 10px;
-            margin: 10px 0;
+            margin: 10px 0 20px 0;
             border-radius: 5px;
             border: 1px solid #ccc;
-            box-sizing: border-box;
+            font-size: 16px;
         }
-
         button {
             width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 5px;
-            border: none;
-            background-color: #1976d2;
+            background-color: #6772e5;
             color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
             transition: background-color 0.3s;
         }
-
         button:hover {
-            background-color: #0d47a1;
+            background-color: #5469d4;
         }
-
         a {
-            display: inline-block;
+            display: block;
             margin-top: 15px;
             text-decoration: none;
-            color: #1976d2;
+            color: #6772e5;
         }
-
         a:hover {
             text-decoration: underline;
         }
     </style>
 </head>
-
 <body>
     <div class="container">
-        <h1>Add Money to Your Account</h1>
-        <form action="/pay" method="POST">
-            <label>Enter amount to add:</label>
-            <input type="number" name="amount" required>
-            <button type="submit">Pay with Instamojo</button>
+        <h1>Add Money</h1>
+        <form action="/add_money" method="POST">
+            <label>Enter Amount (₹):</label>
+            <input type="number" name="amount" min="1" step="0.01" required>
+            <button type="submit">Pay with Stripe</button>
         </form>
         <a href="/dashboard">Back to Dashboard</a>
     </div>
 </body>
-
 </html>
