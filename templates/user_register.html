@@ -1,64 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Register</title>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.register-container {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    width: 300px;
-}
-
-h1 { 
-    text-align: center; 
-    color: #333; 
-}
-
-input, button {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-}
-
-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-<div class="register-container">
-    <h1>Register Your Account</h1>
-    <form action="/register" method="post">
-        <input type="text" name="username" placeholder="Enter username" required>
-        <input type="tel" name="phonum" placeholder="Enter phone number" required>
-        <input type="email" name="email" placeholder="Enter email" required>
-        <input type="password" name="password" placeholder="Create password" required>
-        <input type="number" name="deposit" placeholder="Deposit amount" required>
-        <button type="submit">Submit</button>
-    </form>
-</div>
+    <div class="register-container">
+        <h1>Initialise Account</h1>
+        <form action="/register" method="post">
+            <input type="text" name="username" placeholder="USERNAME" required>
+            <input type="tel" name="phonum" placeholder="PHONE NUMBER" required>
+            <input type="email" name="email" placeholder="EMAIL ADDRESS" required>
+            <input type="password" name="password" placeholder="PASSWORD" required>
+            <input type="number" name="deposit" placeholder="INITIAL DEPOSIT" required>
+            <button type="submit">Register Unit</button>
+        </form>
+        <br>
+        <a href="/">Abort</a>
+    </div>
 </body>
 </html>

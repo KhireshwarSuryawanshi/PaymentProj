@@ -1,0 +1,184 @@
+/* =========================================
+   1. Imports & Variables (Dark Future Theme)
+   ========================================= */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap');
+
+:root {
+    --bg-color: #050505;        /* Deep Black */
+    --card-bg: #111111;         /* Dark Grey */
+    --accent: #00f3ff;          /* Cyber Cyan */
+    --accent-dim: rgba(0, 243, 255, 0.1);
+    --text-main: #ffffff;
+    --text-muted: #888888;
+    --border-color: #333;
+    --glow: 0 0 10px rgba(0, 243, 255, 0.5);
+    --radius: 4px;              /* Sharp corners for sci-fi look */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: 'Rajdhani', sans-serif; /* Tech font */
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    letter-spacing: 1px;
+}
+
+/* Typography */
+h1, h2, h3 { 
+    color: var(--text-main); 
+    text-transform: uppercase; 
+    margin-bottom: 20px; 
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+p { color: var(--text-muted); font-family: 'Roboto Mono', monospace; font-size: 0.9rem; margin-bottom: 20px;}
+
+a { 
+    color: var(--accent); 
+    text-decoration: none; 
+    text-transform: uppercase; 
+    font-weight: bold; 
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+a:hover { text-shadow: var(--glow); letter-spacing: 2px; }
+
+/* =========================================
+   2. Containers (The "Tech Card")
+   ========================================= */
+.container, .register-container, .success-container, .recharge-container, .login-container, .card, form {
+    background-color: var(--card-bg);
+    padding: 40px;
+    border: 1px solid #333;
+    border-left: 3px solid var(--accent); /* Sci-fi accent bar */
+    border-radius: var(--radius);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    margin: 20px auto;
+}
+
+/* =========================================
+   3. Forms & Inputs
+   ========================================= */
+label { 
+    display: block; 
+    text-align: left; 
+    color: var(--accent); 
+    font-size: 0.8rem; 
+    margin-top: 15px; 
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background-color: #000;
+    border: 1px solid #333;
+    color: white;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 1rem;
+    transition: 0.3s;
+    border-radius: 2px;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 8px var(--accent-dim);
+}
+
+/* =========================================
+   4. Buttons (Cyber Style)
+   ========================================= */
+button, input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background: transparent;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 2px;
+    letter-spacing: 2px;
+}
+
+button:hover, input[type="submit"]:hover {
+    background-color: var(--accent);
+    color: #000;
+    box-shadow: var(--glow);
+}
+
+/* Variant: Buttons inside links */
+a button { width: auto; padding: 10px 25px; }
+
+/* =========================================
+   5. Tables (Profile & History)
+   ========================================= */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    margin-bottom: 30px;
+    background: #000;
+    border: 1px solid #333;
+}
+
+th {
+    background-color: #1a1a1a;
+    color: var(--accent);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    padding: 12px;
+    border-bottom: 1px solid var(--accent);
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #222;
+    color: #ddd;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 0.9rem;
+}
+
+tr:hover { background-color: #111; }
+
+/* =========================================
+   6. Dashboard List
+   ========================================= */
+ul { list-style: none; padding: 0; width: 100%; }
+
+ul li { margin: 15px 0; }
+
+ul li a {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #111;
+    border: 1px solid #333;
+    color: white;
+    transition: 0.3s;
+    text-align: center;
+}
+
+ul li a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background-color: rgba(0, 243, 255, 0.05);
+    transform: translateX(5px);
+}

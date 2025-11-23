@@ -1,82 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 100px;
-            background-color: #f0f0f0;
-        }
-
-        h2 {
-            color: #333;
-        }
-
-        form {
-            display: inline-block;
-            padding: 30px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        input[type="text"],
-        input[type="password"] {
-            padding: 8px;
-            margin: 5px 0;
-            width: 200px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        input[type="submit"] {
-            padding: 10px 20px;
-            margin-top: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        input[type="submit"]:hover {
-            background-color: #45a049;
-        }
-
-        a {
-            display: block;
-            margin-top: 15px;
-            color: #333;
-            text-decoration: none;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
-
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
-    <h2>Login Form</h2>
-    <form method="post" action="/login">
-        <label>Username:</label>
-        <input type="text" name="username" required><br><br>
+    <div class="login-container">
+        <h2>System Access</h2>
+        <form method="post" action="/login">
+            <label>Identity (Username):</label>
+            <input type="text" name="username" required>
 
-        <label>Password:</label>
-        <input type="password" name="password" required><br><br>
+            <label>Security Key (Password):</label>
+            <input type="password" name="password" required>
 
-        <input type="submit" value="Login">
-
-        <br>
-        <a href="/">Back to Home</a>
-    </form>
+            <input type="submit" value="Authenticate">
+            
+            <br><br>
+            <a href="/">Return to Main</a>
+        </form>
+    </div>
 </body>
-
 </html>

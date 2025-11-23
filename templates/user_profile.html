@@ -1,137 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f9f9f9;
-        }
-
-        h1,
-        h2 {
-            color: #333;
-        }
-
-        table {
-            margin: 0 auto;
-            border-collapse: collapse;
-            width: 80%;
-            margin-bottom: 20px;
-        }
-
-        th,
-        td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #eee;
-        }
-
-        button {
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            font-size: 14px;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        a {
-            text-decoration: none;
-        }
-    </style>
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style> body { justify-content: flex-start; padding-top: 50px; } </style>
 </head>
-
 <body>
-    <h1>Welcome, {{ user.username }}!</h1>
+    <div class="container" style="max-width: 800px;">
+        <h1>User Data: {{ user.username }}</h1>
 
-    <table border="1" cellpadding="10">
-        <tr>
-            <th>Username</th>
-            <td>{{ user.username }}</td>
-        </tr>
-        <tr>
-            <th>Phone Number</th>
-            <td>{{ user.phone_no }}</td>
-        </tr>
-        <tr>
-            <th>Email</th>
-            <td>{{ user.email }}</td>
-        </tr>
-        <tr>
-            <th>Balance</th>
-            <td>{{ user.deposit }}</td>
-        </tr>
-    </table>
+        <table>
+            <tr>
+                <th>Field</th>
+                <th>Data</th>
+            </tr>
+            <tr>
+                <td>Username</td>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <td>Phone Number</td>
+                <td>{{ user.phone_no }}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>{{ user.email }}</td>
+            </tr>
+            <tr>
+                <td>Current Balance</td>
+                <td style="color: var(--accent); font-weight: bold;">₹ {{ user.deposit }}</td>
+            </tr>
+        </table>
 
-    <br>
-    <h2>Recharge History</h2>
-    <table border="1" cellpadding="5">
-        <tr>
-            <th>Operator</th>
-            <th>Phone Number</th>
-            <th>Amount</th>
-            <th>Date</th>
-        </tr>
-        {% for record in history %}
-        <tr>
-            <td>{{ record.operator }}</td>
-            <td>{{ record.phone_no }}</td>
-            <td>{{ record.amount }}</td>
-            <td>{{ record.recharge_date }}</td>
-        </tr>
-        {% else %}
-        <tr>
-            <td colspan="4">No recharge history yet.</td>
-        </tr>
-        {% endfor %}
-    </table>
+        <h2>Transaction Logs</h2>
+        
+        <h3>Recharge History</h3>
+        <table>
+            <tr>
+                <th>Operator</th>
+                <th>Target</th>
+                <th>Amount</th>
+                <th>Timestamp</th>
+            </tr>
+            {% for record in history %}
+            <tr>
+                <td>{{ record.operator }}</td>
+                <td>{{ record.phone_no }}</td>
+                <td>{{ record.amount }}</td>
+                <td>{{ record.recharge_date }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="4">No data found.</td>
+            </tr>
+            {% endfor %}
+        </table>
 
-    <h3>Depoit History</h3>
-    <table border="1">
-        <tr>
-            <th>ID</th>
-            <th>Amoun</th>
-            <th>Date</th>
-        </tr>
-        {% for d in deposits %}
-        <tr>
-            <td>{{ d.id }}</td>
-            <td>{{ d.amount }}</td>
-            <td>{{ d.date }}</td>
-        </tr>
-        {% else %}
-        <tr>
-            <td colspan="3">No deposit yet . . . </td>
-        </tr>
-        {% endfor %}
-    </table>
+        <h3>Deposit History</h3>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Amount</th>
+                <th>Timestamp</th>
+            </tr>
+            {% for d in deposits %}
+            <tr>
+                <td>{{ d.id }}</td>
+                <td>{{ d.amount }}</td>
+                <td>{{ d.date }}</td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="3">No data found.</td>
+            </tr>
+            {% endfor %}
+        </table>
 
-    <br>
-    <a href="/recharge"><button>Recharge Again</button></a>
-    <a href="/logout"><button>Logout</button></a>
-
-
-    <form action="/dashboard">
-        <button type="submit"> Back</button>
-    </form>
-
+        <div style="display: flex; justify-content: center; gap: 10px;">
+            <a href="/recharge"><button>Recharge</button></a>
+            <a href="/dashboard"><button>Back</button></a>
+        </div>
+    </div>
 </body>
-
 </html>

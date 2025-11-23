@@ -1,122 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee - Manage Users</title>
-    <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f2f2f2;
-        padding: 20px;
-    }
-
-    h1 {
-        text-align: center;
-        color: #333;
-        margin-bottom: 20px;
-    }
-
-    form {
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
-    input[type="text"],
-    input[type="number"],
-    input[type="email"] {
-        padding: 8px 10px;
-        margin: 5px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        font-size: 14px;
-    }
-
-    button {
-        padding: 8px 15px;
-        margin: 5px;
-        border: none;
-        border-radius: 5px;
-        background-color: #4CAF50;
-        color: white;
-        cursor: pointer;
-        font-size: 14px;
-        transition: background-color 0.3s;
-    }
-
-    button:hover {
-        background-color: #45a049;
-    }
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 10px;
-        background-color: #fff;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    th,
-    td {
-        padding: 12px 15px;
-        border: 1px solid #ddd;
-        text-align: center;
-    }
-
-    th {
-        background-color: #4CAF50;
-        color: white;
-    }
-
-    form.inline {
-        display: inline-block;
-        margin: 0;
-    }
-
-    a {
-        display: inline-block;
-        text-decoration: none;
-        color: #4CAF50;
-        font-weight: bold;
-        margin-top: 20px;
-    }
-
-    a:hover {
-        text-decoration: underline;
-    }
-
-    hr {
-        margin: 20px 0;
-        border: 0;
-        border-top: 1px solid #ccc;
-    }
-
-    h2 {
-        color: #333;
-        margin-top: 30px;
-    }
-
-    p {
-        font-size: 14px;
-        margin: 5px 0;
-    }
-</style>
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style> body { justify-content: flex-start; padding-top: 50px; } </style>
 </head>
-
 <body>
     <h1>Employee - Manage Users</h1>
 
-    <!-- Search User -->
-    <form method="POST" action="{{ url_for('search_user') }}">
-        <input type="text" name="username" placeholder="Search username" required>
-        <button type="submit">Search</button>
-    </form>
+    <div class="container" style="padding: 20px;">
+        <form method="POST" action="{{ url_for('search_user') }}" class="inline">
+            <input type="text" name="username" placeholder="Search username" required style="margin-bottom:0; width: auto;">
+            <button type="submit" style="margin-top:0; width: auto; margin-left: 10px;">Search</button>
+        </form>
+    </div>
 
     <hr>
 
-    <!-- User Table -->
     <table>
         <tr>
             <th>Username</th>
@@ -134,7 +36,6 @@
             <td>{{ user.email }}</td>
             <td>{{ user.deposit }}</td>
             <td>
-                <!-- Update User Form -->
                 <form class="inline" method="POST" action="{{ url_for('update_user') }}">
                     <input type="hidden" name="username" value="{{ user.username }}">
                     <input type="text" name="email" placeholder="Email">
@@ -143,10 +44,9 @@
                     <button type="submit">Update</button>
                 </form>
 
-                <!-- Delete User Form -->
                 <form class="inline" method="POST" action="{{ url_for('delete_user') }}">
                     <input type="hidden" name="username" value="{{ user.username }}">
-                    <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+                    <button type="submit" class="delete-btn" onclick="return confirm('Are you sure?')">Delete</button>
                 </form>
             </td>
         </tr>
@@ -159,15 +59,16 @@
     </table>
 
     {% if search_result %}
-    <h2>Search Result</h2>
-    <p><strong>Username:</strong> {{ search_result.username }}</p>
-    <p><strong>Phone:</strong> {{ search_result.phone_no }}</p>
-    <p><strong>Email:</strong> {{ search_result.email }}</p>
-    <p><strong>Deposit:</strong> {{ search_result.deposit }}</p>
+    <div class="container">
+        <h2>Search Result</h2>
+        <p><strong>Username:</strong> {{ search_result.username }}</p>
+        <p><strong>Phone:</strong> {{ search_result.phone_no }}</p>
+        <p><strong>Email:</strong> {{ search_result.email }}</p>
+        <p><strong>Deposit:</strong> {{ search_result.deposit }}</p>
+    </div>
     {% endif %}
 
     <br>
     <a href="{{ url_for('employee_dashboard') }}">Back to Dashboard</a>
 </body>
-
 </html>
